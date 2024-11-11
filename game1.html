@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>갤러그 게임</title>
+  <title>Galaga</title>
   <style>
-    /* 화면 전체를 채우는 스타일 */
     body, html {
       margin: 0;
       padding: 0;
@@ -15,7 +14,6 @@
       background-color: #000;
     }
 
-    /* 플레이어 사각형 */
     .player {
       position: absolute;
       width: 50px;
@@ -25,6 +23,13 @@
       left: 50%;
       transform: translate(-50%, -50%);
     }
+
+    .bullet {
+      position: absolute;
+      width: 10px;
+      height: 20px;
+      background-color: #f00;
+    }
   </style>
 </head>
 <body>
@@ -33,24 +38,24 @@
 
   <script>
     const player = document.getElementById("player");
-    const moveDistance = 4; // 움직이는 거리 (px)
-    const keys = {}; // 누르고 있는 키를 저장하는 객체
+    const moveDistance = 4;
+    const keys = {};
 
-    // 키 다운 이벤트: 누른 키를 true로 설정
     document.addEventListener("keydown", (event) => {
       keys[event.key.toLowerCase()] = true;
+
+      if (event.key === " ") {
+        shootBullet();
+      }
     });
 
-    // 키 업 이벤트: 키에서 손을 뗄 때 false로 설정
     document.addEventListener("keyup", (event) => {
       keys[event.key.toLowerCase()] = false;
     });
 
-    // 움직임을 업데이트하는 함수
     function updatePosition() {
       const playerRect = player.getBoundingClientRect();
 
-      // 키 상태에 따라 네모의 위치를 변경
       if (keys["w"] && playerRect.top > 0) {
         player.style.top = `${player.offsetTop - moveDistance}px`;
       }
@@ -65,9 +70,30 @@
       }
     }
 
-    // 0.05초마다 updatePosition 함수를 호출하여 화면을 업데이트
-    setInterval(updatePosition, 10); // 50ms = 0.05초
+    function shootBullet() {
+      const bullet = document.createElement("div");
+      bullet.classList.add("bullet");
 
+      bullet.style.left = `${player.offsetLeft + player.offsetWidth / 2 - 5}px`;
+      bullet.style.top = `${player.offsetTop - 20}px`;
+
+      document.body.appendChild(bullet);
+
+      function moveBullet() {
+        const bulletRect = bullet.getBoundingClientRect();
+
+        if (bulletRect.bottom < 0) {
+          bullet.remove();
+          clearInterval(bulletInterval);
+        } else {
+          bullet.style.top = `${bullet.offsetTop - 10}px`;
+        }
+      }
+
+      const bulletInterval = setInterval(moveBullet, 20);
+    }
+
+    setInterval(updatePosition, 10);
   </script>
 
 </body>
