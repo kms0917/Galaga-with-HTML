@@ -19,7 +19,7 @@
       width: 50px;
       height: 50px;
       background-color: #fff;
-      top: 50%;
+      top: 90%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
@@ -30,22 +30,71 @@
       height: 20px;
       background-color: #f00;
     }
+
+    .pause-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(121, 103, 103, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 2em;
+      z-index: 100;
+    }
+
+    .pause-menu {
+      text-align: center;
+    }
+
+    .pause-menu button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .pause-menu button:hover {
+      background-color: #d6caca;
+    }
   </style>
 </head>
 <body>
 
   <div class="player" id="player"></div>
+  <div class="pause-overlay" id="pauseOverlay">
+    <div class="pause-menu">
+      <div>Pause</div>
+      <button onclick="resumeGame()">Resume</button>
+      <button onclick="exitGame()">Exit</button>
+    </div>
+  </div>
 
   <script>
     const player = document.getElementById("player");
+    const pauseOverlay = document.getElementById("pauseOverlay");
     const moveDistance = 4;
     const keys = {};
-
+    let isPaused = false; // 게임의 일시 정지 상태를 추적
+    let updateInterval;
+    
+    // 키 이벤트 리스너 추가
     document.addEventListener("keydown", (event) => {
-      keys[event.key.toLowerCase()] = true;
-
-      if (event.key === " ") {
-        shootBullet();
+      if (event.key === "Escape") {
+        togglePause(); // ESC 키로 일시 정지 또는 재개
+      } else {
+        keys[event.key.toLowerCase()] = true;
+        if (!isPaused && event.key === " ") {
+          shootBullet(); // 스페이스바로 발사체 발사
+        }
       }
     });
 
@@ -53,7 +102,10 @@
       keys[event.key.toLowerCase()] = false;
     });
 
+    // 플레이어 위치 업데이트 함수
     function updatePosition() {
+      if (isPaused) return;
+      
       const playerRect = player.getBoundingClientRect();
 
       if (keys["w"] && playerRect.top > 0) {
@@ -70,16 +122,21 @@
       }
     }
 
+    // 발사체 발사 함수
     function shootBullet() {
+      if (isPaused) return;
+
       const bullet = document.createElement("div");
       bullet.classList.add("bullet");
 
-      bullet.style.left = `${player.offsetLeft + player.offsetWidth / 2 - 5}px`;
+      bullet.style.left = `${player.offsetLeft + (player.offsetWidth / 2) - 27}px`;
       bullet.style.top = `${player.offsetTop - 20}px`;
 
       document.body.appendChild(bullet);
 
       function moveBullet() {
+        if (isPaused) return;
+
         const bulletRect = bullet.getBoundingClientRect();
 
         if (bulletRect.bottom < 0) {
@@ -90,10 +147,28 @@
         }
       }
 
-      const bulletInterval = setInterval(moveBullet, 20);
+      const bulletInterval = setInterval(moveBullet, 10);
     }
 
-    setInterval(updatePosition, 10);
+    // 일시 정지 및 재개 함수
+    function togglePause() {
+      isPaused = !isPaused;
+      pauseOverlay.style.display = isPaused ? "flex" : "none";
+    }
+
+    // 게임 재개 함수
+    function resumeGame() {
+      isPaused = false;
+      pauseOverlay.style.display = "none";
+    }
+
+    // 게임 종료 함수 (페이지 새로고침으로 구현)
+    function exitGame() {
+      window.location.href = "index.html";
+    }
+
+    // 10ms마다 위치 업데이트
+    updateInterval = setInterval(updatePosition, 10);
   </script>
 
 </body>
