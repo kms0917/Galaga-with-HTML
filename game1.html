@@ -31,6 +31,21 @@
       background-color: #f00;
     }
 
+    .enemy {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: #0f0;
+      top: 0;
+    }
+
+    .enemy-bullet {
+      position: absolute;
+      width: 10px;
+      height: 20px;
+      background-color: #ff0;
+    }
+
     .pause-overlay {
       position: fixed;
       top: 0;
@@ -83,17 +98,17 @@
     const pauseOverlay = document.getElementById("pauseOverlay");
     const moveDistance = 4;
     const keys = {};
-    let isPaused = false; // 게임의 일시 정지 상태를 추적
-    let updateInterval;
-    
+    let isPaused = false;
+    let enemies = [];
+
     // 키 이벤트 리스너 추가
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
-        togglePause(); // ESC 키로 일시 정지 또는 재개
+        togglePause();
       } else {
         keys[event.key.toLowerCase()] = true;
         if (!isPaused && event.key === " ") {
-          shootBullet(); // 스페이스바로 발사체 발사
+          shootBullet();
         }
       }
     });
@@ -102,10 +117,9 @@
       keys[event.key.toLowerCase()] = false;
     });
 
-    // 플레이어 위치 업데이트 함수
     function updatePosition() {
       if (isPaused) return;
-      
+
       const playerRect = player.getBoundingClientRect();
 
       if (keys["w"] && playerRect.top > 0) {
@@ -122,7 +136,6 @@
       }
     }
 
-    // 발사체 발사 함수
     function shootBullet() {
       if (isPaused) return;
 
@@ -150,25 +163,64 @@
       const bulletInterval = setInterval(moveBullet, 10);
     }
 
-    // 일시 정지 및 재개 함수
+    function createEnemy() {
+      if (isPaused) return;
+
+      if (Math.random() > 0.3) return;
+
+      const enemy = document.createElement("div");
+      enemy.classList.add("enemy");
+      enemy.style.left = `${Math.random() * (window.innerWidth - 50)}px`;
+
+      document.body.appendChild(enemy);
+      enemies.push(enemy);
+
+      setInterval(() => enemyShoot(enemy), 500); // 0.5초마다 발사체 발사
+    }
+
+    function enemyShoot(enemy) {
+      if (isPaused || !enemy.parentNode) return;
+
+      const enemyBullet = document.createElement("div");
+      enemyBullet.classList.add("enemy-bullet");
+
+      enemyBullet.style.left = `${enemy.offsetLeft + (enemy.offsetWidth / 2) - 5}px`;
+      enemyBullet.style.top = `${enemy.offsetTop + enemy.offsetHeight}px`;
+
+      document.body.appendChild(enemyBullet);
+
+      function moveEnemyBullet() {
+        if (isPaused) return;
+
+        const bulletRect = enemyBullet.getBoundingClientRect();
+
+        if (bulletRect.top > window.innerHeight) {
+          enemyBullet.remove();
+          clearInterval(bulletInterval);
+        } else {
+          enemyBullet.style.top = `${enemyBullet.offsetTop + 5}px`;
+        }
+      }
+
+      const bulletInterval = setInterval(moveEnemyBullet, 20);
+    }
+
     function togglePause() {
       isPaused = !isPaused;
       pauseOverlay.style.display = isPaused ? "flex" : "none";
     }
 
-    // 게임 재개 함수
     function resumeGame() {
       isPaused = false;
       pauseOverlay.style.display = "none";
     }
 
-    // 게임 종료 함수 (페이지 새로고침으로 구현)
     function exitGame() {
       window.location.href = "index.html";
     }
 
-    // 10ms마다 위치 업데이트
-    updateInterval = setInterval(updatePosition, 10);
+    setInterval(updatePosition, 10);
+    setInterval(createEnemy, 2000); // 2초마다 적 생성
   </script>
 
 </body>
