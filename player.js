@@ -106,7 +106,7 @@
       
         // 적과 플레이어 충돌 확인
         enemies.forEach((enemy, index) => {
-          const enemyRect = enemy.getBoundingClientRect();
+          const enemyRect = enemy.element.getBoundingClientRect();
       
           // 충돌 조건 검사
           if (
@@ -115,7 +115,7 @@
             enemyRect.top < playerRect.bottom &&
             enemyRect.bottom > playerRect.top
           ) {
-            removeEnemy(enemy, index);
+            enemy.die();
             playerHealth--; // 체력 감소
             updateHealthDisplay();
       

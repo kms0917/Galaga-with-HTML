@@ -8,7 +8,7 @@ function spawnEnemy() {
     if (isPaused) {
         return;
     }
-  if (Math.random() < spawnProbabilities) {
+  if (Math.random() <= spawnProbabilities) {
     const x = Math.random() * window.innerWidth;
     const y = 0; // 화면 상단에 적이 스폰됨
     const newEnemy = new ChargingEnemy(x, y);
