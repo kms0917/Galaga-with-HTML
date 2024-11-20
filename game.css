@@ -1,0 +1,75 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000;
+  }
+
+  .player {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .bullet {
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    background-color: #f00;
+  }
+
+  .enemy {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #0f0;
+    top: 0;
+  }
+
+  .enemy-bullet {
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    background-color: #ff0;
+  }
+
+  .pause-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(121, 103, 103, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-size: 2em;
+    z-index: 100;
+  }
+
+  .pause-menu {
+    text-align: center;
+  }
+
+  .pause-menu button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+
+  .pause-menu button:hover {
+    background-color: #d6caca;
+  }
