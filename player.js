@@ -124,6 +124,25 @@
             }
           }
         });
+
+        obstacles.forEach((obstacle, index) =>{
+          const obstacleRect = obstacle.element.getBoundingClientRect();
+
+          if (
+            obstacleRect.left < playerRect.right &&
+            obstacleRect.right > playerRect.left &&
+            obstacleRect.top < playerRect.bottom &&
+            obstacleRect.bottom > playerRect.top
+          ) {
+            obstacle.destroy();
+            playerHealth--;
+            updateHealthDisplay();
+
+            if (playerHealth <= 0) {
+              gameOver();
+            }
+          }
+        });
       }      
       
 function gameOver() {

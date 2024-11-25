@@ -28,7 +28,6 @@ body, html {
     position: absolute;
     width: 50px;
     height: 50px;
-    background-color: #0f0;
     top: 0;
   }
 
@@ -38,6 +37,22 @@ body, html {
     height: 20px;
     background-color: #ff0;
   }
+
+  .charging-enemy {
+    background-color: rgb(0, 255, 102);
+    border-radius: 50%;
+  }
+
+.obstacle{
+  position: absolute;
+  top: 0;
+}
+
+.wave-obstacle{
+  width: 70px;
+  height: 30px;
+  background-color: blue;
+}
 
   .pause-overlay {
     position: fixed;

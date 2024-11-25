@@ -91,6 +91,7 @@ class Enemy {
 class ChargingEnemy extends Enemy {
   constructor(x, y) {
     super(x, y, 1, 2, 0); // Stage1 적은 체력 1, 속도 2
+    this.element.classList.add("charging-enemy");
   }
 
   // 이동이나 공격을 덮어쓸 수도 있음
