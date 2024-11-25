@@ -3,6 +3,7 @@ let stage = 1;
 const spawnProbabilities = 0.9;
 
 const enemies = []; // 적들이 저장될 배열
+const enemyTypes = [CrossEnemy, ChargingEnemy]; // 적의 종류를 담은 배열
 const obstacles = [];
 
 function spawnEnemy() {
@@ -12,7 +13,9 @@ function spawnEnemy() {
   if (Math.random() <= spawnProbabilities) {
     const x = Math.random() * window.innerWidth;
     const y = 0; // 화면 상단에 적이 스폰됨
-    const newEnemy = new ChargingEnemy(x, y);
+    const randomIndex = Math.floor(Math.random() * enemyTypes.length);
+    const SelectedEnemyType = enemyTypes[randomIndex];
+    const newEnemy = new SelectedEnemyType(x, y);
     enemies.push(newEnemy);
   }
 }
@@ -31,4 +34,4 @@ function spawnEnemy() {
   // 일정 시간마다 장애물 생성
   setInterval(spawnObstacle, 2000);
 
-setInterval(spawnEnemy, 2000); // 2초마다 스폰
+setInterval(spawnEnemy, 1500); // 2초마다 스폰

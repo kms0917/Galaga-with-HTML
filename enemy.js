@@ -1,14 +1,19 @@
 // enemy.js
+const scoreContainer = document.getElementById("scoreContainer");
+let currentscore = 0;
+
 class Enemy {
-  constructor(x, y, health, speed, attackChance) {
+  constructor(x, y, health, speed, attackChance,attackSpeed, score) {
     this.x = x;
     this.y = y;
     this.health = health;
     this.speed = speed;
     this.attackChance = attackChance;
+    this.attackSpeed = attackSpeed;
+    this.score = score;
     this.element = this.createEnemyElement(); // HTML 요소 생성
     this.collisionInterval = setInterval(() => this.checkCollision(), 10);
-    this.attackInterval = setInterval(()=> this.attack(), 1000);
+    this.attackInterval = setInterval(()=> this.attack(), attackSpeed);
     this.moveInterval = setInterval(() => this.move(), 10);
   }
 
@@ -26,7 +31,7 @@ class Enemy {
 
   attack() {
 
-    if (Math.random() >= this.attackChance || isPaused){
+    if (Math.random() > this.attackChance || isPaused){
       return;
     }
       
@@ -72,6 +77,8 @@ class Enemy {
   takeDamage(damage) {
     this.health -= damage;
     if (this.health <= 0) {
+      currentscore += this.score;
+      scoreContainer.innerText = `Score: ${currentscore}`;
       this.die();
     }
   }
@@ -90,7 +97,7 @@ class Enemy {
 
 class ChargingEnemy extends Enemy {
   constructor(x, y) {
-    super(x, y, 1, 2, 0); // Stage1 적은 체력 1, 속도 2
+    super(x, y, 1, 2, 0, 1000, 100); // Stage1 적은 체력 1, 속도 2
     this.element.classList.add("charging-enemy");
   }
 
@@ -121,5 +128,38 @@ class ChargingEnemy extends Enemy {
     this.element.style.left = `${this.x}px`;
     this.element.style.top = `${this.y}px`;
   }
-  
+}
+
+class CrossEnemy extends Enemy{
+  constructor(x, y){
+    super(x, y, 1, 2, 1, 600, 150); // Stage1 적은 체력 2, 속도 1
+    this.element.classList.add("cross-enemy");
+
+    this.directionX = Math.random() < 0.5 ? -1 : 1;
+    this.directionY = 1; // 아래로 이동
+  }
+
+  move() {
+    if (isPaused){
+      return;
+    }
+    this.x += this.directionX * this.speed;
+    this.y += this.directionY * this.speed;
+
+    // 좌우 벽에 충돌 시 방향 반전
+    if (this.x <= 0) {
+      this.directionX = 1; // 오른쪽으로 반전
+    } else if (this.x + this.element.offsetWidth >= window.innerWidth) {
+      this.directionX = -1; // 왼쪽으로 반전
+    }
+
+    // 화면 상 위치 업데이트
+    this.element.style.left = `${this.x}px`;
+    this.element.style.top = `${this.y}px`;
+
+    // 아래로 이동한 적이 화면 밖으로 나가면 제거
+    if (this.y >= window.innerHeight) {
+      this.die();
+    }
+  }
 }

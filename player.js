@@ -1,5 +1,6 @@
     const player = document.getElementById("player");
     const pauseOverlay = document.getElementById("pauseOverlay");
+    const healthContainer = document.getElementById("healthContainer");
     const moveDistance = 4;
     const keys = {};
     let isPaused = false;
