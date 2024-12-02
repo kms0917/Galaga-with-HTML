@@ -24,6 +24,14 @@
       <button onclick="exitGame()">Main Menu</button>
     </div>
   </div> 
+  <div class="score-overlay" id="scoreOverlay"">
+    <div class="score-menu">
+      <div>Congratulations! New High Score!</div>
+      <div>Your Score: <span id="finalScoreDisplay"></span></div>
+      <input type="text" id="playerIDInput" placeholder="Enter your ID" />
+      <button onclick="saveScoreToLocalStorage()">Save</button>
+    </div>
+  </div>  
   <script src = "enemy.js"></script>
   <script src = "obstacle.js"></script> 
   <script src = "game1.js"></script>

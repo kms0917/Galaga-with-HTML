@@ -145,10 +145,6 @@
     }
 
     function showRecord() {
-      alert("Record");
-    }
-
-    function showRecord() {
   const recordPopup = document.getElementById("recordPopup");
   const scoreList = document.getElementById("scoreList");
   
@@ -156,18 +152,18 @@
   scoreList.innerHTML = "";
 
   // 로컬 저장소에서 점수 가져오기
-  const scores = JSON.parse(localStorage.getItem("highScores")) || [];
+  const scores = JSON.parse(localStorage.getItem("highScore")) || [];
 
   if (scores.length === 0) {
     // 점수가 없을 경우 메시지 표시
     const noScores = document.createElement("li");
-    noScores.textContent = "No scores yet!.";
+    noScores.textContent = "No scores yet!";
     scoreList.appendChild(noScores);
   } else {
     // 점수를 리스트에 추가
-    scores.forEach((score, index) => {
+    scores.forEach((entry, index) => {
       const listItem = document.createElement("li");
-      listItem.textContent = `${index + 1}th: ${score}`;
+      listItem.textContent = `${index + 1}th: ${entry.id} - ${entry.score}`;
       scoreList.appendChild(listItem);
     });
   }
@@ -176,9 +172,43 @@
   recordPopup.style.display = "flex";
 }
 
+
 function closeRecord() {
   document.getElementById("recordPopup").style.display = "none";
 }
+
+function initializeDefaultScores() {
+  // 초기화 여부 확인
+  const isInitialized = localStorage.getItem("scoresInitialized");
+
+  // 이미 초기화된 경우 함수 종료
+  if (isInitialized) return;
+
+  // 기본 기록값 설정
+  const defaultScores = [
+    { id: "Immortal", score: 30000 },
+    { id: "Legend", score: 20000 },
+    { id: "Champion", score: 15000 },
+    { id: "Master", score: 10000 },
+    { id: "Hero", score: 7000 },
+    { id: "Warrior", score: 3000 },
+    { id: "Guardian", score: 1500 },
+    { id: "Expert", score: 1000 },
+    { id: "Adventurer", score: 700 },
+    { id: "Rookie", score: 300 },
+  ];
+
+  // 기본 점수를 로컬 저장소에 저장
+  localStorage.setItem("highScore", JSON.stringify(defaultScores));
+
+  // 초기화 플래그 설정
+  localStorage.setItem("scoresInitialized", "true");
+
+  console.log("Default scores initialized:", defaultScores);
+}
+
+// 게임 실행 시 초기화 함수 호출
+initializeDefaultScores();
 
   </script>
 </body>

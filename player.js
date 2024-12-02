@@ -155,25 +155,46 @@
       
 function gameOver() {
     isPaused = true; // 게임을 일시 정지 상태로 전환
-    const gameOverOverlay = document.getElementById("gameOverOverlay");
-    gameOverOverlay.style.display = "flex"; // 게임 오버 화면 표시
-  saveScoreToLocalStorage(currentscore);
+    const scores = JSON.parse(localStorage.getItem("highScore")) || [];
+
+    if (scores.length <= 10 || currentscore > scores[scores.length - 1].score) {
+      const scoreOverlay = document.getElementById("scoreOverlay");
+      scoreOverlay.style.display = "flex"; 
+    } else {
+      const gameOverOverlay = document.getElementById("gameOverOverlay");
+      gameOverOverlay.style.display = "flex"; // 게임 오버 화면 표시
+    }
   }
   
-function saveScoreToLocalStorage(currentScore) {
-  // 로컬 저장소에서 점수 리스트 가져오기
-  let scores = JSON.parse(localStorage.getItem("highScores")) || [];
+  function saveScoreToLocalStorage() {
+    // HTML 요소에서 입력값 가져오기
+    const playerID = document.getElementById("playerIDInput").value.trim();
+    const finalScore = currentscore;
+    // 입력값 검증
+    if (!playerID) {
+      alert("Please enter a valid ID.");
+      return;
+    }
+  
+    // 로컬 저장소에서 점수 리스트 가져오기
+    const scores = JSON.parse(localStorage.getItem("highScore")) || [];
+  
+    // 새로운 점수 추가 및 정렬
+    scores.push({ id: playerID, score: finalScore });
+    scores.sort((a, b) => b.score - a.score);
+  
+    // 상위 10개 점수만 유지
+    const topScores = scores.slice(0, 10);
+  
+    // 로컬 저장소에 저장
+    localStorage.setItem("highScore", JSON.stringify(topScores));
+  
+    // 오버레이 전환
+    document.getElementById("scoreOverlay").style.display = "none";
+    document.getElementById("gameOverOverlay").style.display = "flex"; // 게임 오버 화면 표시
+  }
+  
 
-  // 새로운 점수 추가 및 정렬
-  scores.push(currentScore);
-  scores.sort((a, b) => b - a); // 내림차순 정렬
-
-  // 상위 10개 점수만 유지
-  scores = scores.slice(0, 10);
-
-  // 로컬 저장소에 저장
-  localStorage.setItem("highScores", JSON.stringify(scores));
-}
 
   // 게임 재시작
   function restartGame() {
