@@ -24,6 +24,9 @@
         togglePause();
       } else {
         keys[event.key.toLowerCase()] = true;
+        if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+          keys[event.key] = true;
+        }
         if (!isPaused && event.key === " ") {
           shootBullet();
         }
@@ -32,23 +35,27 @@
 
     document.addEventListener("keyup", (event) => {
       keys[event.key.toLowerCase()] = false;
+      if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+        keys[event.key] = false;
+      }
     });
 
     function updatePosition() {
       if (isPaused) return;
-
+    
       const playerRect = player.getBoundingClientRect();
-
-      if (keys["w"] && playerRect.top > 0) {
+    
+      // WASD 키 처리
+      if ((keys["w"] || keys["ArrowUp"]) && playerRect.top > 0) {
         player.style.top = `${player.offsetTop - moveDistance}px`;
       }
-      if (keys["a"] && playerRect.left > 0) {
+      if ((keys["a"] || keys["ArrowLeft"]) && playerRect.left > 0) {
         player.style.left = `${player.offsetLeft - moveDistance}px`;
       }
-      if (keys["s"] && playerRect.bottom < window.innerHeight) {
+      if ((keys["s"] || keys["ArrowDown"]) && playerRect.bottom < window.innerHeight) {
         player.style.top = `${player.offsetTop + moveDistance}px`;
       }
-      if (keys["d"] && playerRect.right < window.innerWidth) {
+      if ((keys["d"] || keys["ArrowRight"]) && playerRect.right < window.innerWidth) {
         player.style.left = `${player.offsetLeft + moveDistance}px`;
       }
     }
@@ -150,8 +157,24 @@ function gameOver() {
     isPaused = true; // 게임을 일시 정지 상태로 전환
     const gameOverOverlay = document.getElementById("gameOverOverlay");
     gameOverOverlay.style.display = "flex"; // 게임 오버 화면 표시
+  saveScoreToLocalStorage(currentscore);
   }
   
+function saveScoreToLocalStorage(currentScore) {
+  // 로컬 저장소에서 점수 리스트 가져오기
+  let scores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+  // 새로운 점수 추가 및 정렬
+  scores.push(currentScore);
+  scores.sort((a, b) => b - a); // 내림차순 정렬
+
+  // 상위 10개 점수만 유지
+  scores = scores.slice(0, 10);
+
+  // 로컬 저장소에 저장
+  localStorage.setItem("highScores", JSON.stringify(scores));
+}
+
   // 게임 재시작
   function restartGame() {
     window.location.reload(); // 페이지를 새로고침하여 게임 재시작

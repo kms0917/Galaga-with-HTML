@@ -115,10 +115,20 @@
   <div class="popup-overlay" id="controlsPopup">
     <div class="popup-content">
       <h2>Controls</h2>
-      <p>Move : WASD</p>
+      <p>Move : WASD, 방향키</p>
       <p>Attack : Spacebar</p>
       <p>Pause : ESC</p>
       <button onclick="closeControls()">Close</button>
+    </div>
+  </div>
+
+  <div class="popup-overlay" id="recordPopup">
+    <div class="popup-content">
+      <h2>Top 10 Scores</h2>
+      <ul id="scoreList">
+        <!-- 점수 리스트가 여기에 추가됩니다 -->
+      </ul>
+      <button onclick="closeRecord()">Close</button>
     </div>
   </div>
 
@@ -138,6 +148,39 @@
     function showRecord() {
       alert("Record");
     }
+
+    function showRecord() {
+  const recordPopup = document.getElementById("recordPopup");
+  const scoreList = document.getElementById("scoreList");
+  
+  // 기존 점수 리스트 초기화
+  scoreList.innerHTML = "";
+
+  // 로컬 저장소에서 점수 가져오기
+  const scores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+  if (scores.length === 0) {
+    // 점수가 없을 경우 메시지 표시
+    const noScores = document.createElement("li");
+    noScores.textContent = "No scores yet!.";
+    scoreList.appendChild(noScores);
+  } else {
+    // 점수를 리스트에 추가
+    scores.forEach((score, index) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `${index + 1}th: ${score}`;
+      scoreList.appendChild(listItem);
+    });
+  }
+
+  // 팝업 표시
+  recordPopup.style.display = "flex";
+}
+
+function closeRecord() {
+  document.getElementById("recordPopup").style.display = "none";
+}
+
   </script>
 </body>
 </html>
