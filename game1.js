@@ -3,7 +3,7 @@ let stage = 1;
 const spawnProbabilities = 0.9;
 
 const enemies = []; // 적들이 저장될 배열
-const enemyTypes = [CrossEnemy, ChargingEnemy]; // 적의 종류를 담은 배열
+const enemyTypes = [CrossEnemy, ChargingEnemy, StraightEnemy]; // 적의 종류를 담은 배열
 const obstacles = [];
 
 function spawnEnemy() {

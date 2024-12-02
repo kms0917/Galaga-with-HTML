@@ -163,3 +163,28 @@ class CrossEnemy extends Enemy{
     }
   }
 }
+
+class StraightEnemy extends Enemy {
+  constructor(x, y) {
+    super(x, y, 2, 1, 1, 1000, 200); // 체력 2, 속도 1
+    this.element.classList.add("straight-enemy");
+  }
+
+  move() {
+    if (isPaused) {
+      return;
+    }
+
+    // 아래로 이동
+    this.y += this.speed;
+
+    // 화면 상 위치 업데이트
+    this.element.style.left = `${this.x}px`;
+    this.element.style.top = `${this.y}px`;
+
+    // 화면 아래로 나가면 제거
+    if (this.y >= window.innerHeight) {
+      this.die();
+    }
+  }
+}

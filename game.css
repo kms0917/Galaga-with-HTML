@@ -48,6 +48,13 @@ body, html {
     border-radius: 5%;
   }
 
+  .straight-enemy {
+    background-color: rgb(145, 105, 105);
+    position: absolute;
+    border-radius: 50%;
+  }
+  
+
 .obstacle{
   position: absolute;
   top: 0;
