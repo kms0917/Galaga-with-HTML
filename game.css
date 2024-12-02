@@ -66,6 +66,13 @@ body, html {
   background-color: blue;
 }
 
+.falling-obstacle{
+  width: 30px;
+  height: 30px;
+  border-radius: 30%;
+  background-color: #ff0;
+}
+
   .pause-overlay {
     position: fixed;
     top: 0;

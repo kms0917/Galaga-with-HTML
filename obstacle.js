@@ -75,3 +75,24 @@ class Obstacle {
       this.element.style.left = `${this.x}px`;
     }
   }  
+
+  class FallingRock extends Obstacle {
+    constructor(x, y) {
+      super(x, y, 4); // 기본 속도 3으로 설정
+      this.element.classList.add("falling-obstacle");
+    }
+  
+    // 필요하다면 추가 동작 정의
+    move() {
+        if (isPaused) {
+            return;
+          }
+          this.y += this.speed; // 속도를 적용하여 아래로 이동
+          this.element.style.top = `${this.y}px`;
+      
+          // 화면 아래 끝에 닿으면 제거
+          if (this.y > window.innerHeight) {
+            this.destroy();
+          }
+    }
+  }

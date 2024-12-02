@@ -5,6 +5,7 @@ const spawnProbabilities = 0.9;
 const enemies = []; // 적들이 저장될 배열
 const enemyTypes = [CrossEnemy, ChargingEnemy, StraightEnemy]; // 적의 종류를 담은 배열
 const obstacles = [];
+const obstacleTypes = [WaveObstacle, FallingRock];
 
 function spawnEnemy() {
     if (isPaused) {
@@ -27,7 +28,9 @@ function spawnEnemy() {
     }
     const x = Math.random() * window.innerWidth; // 랜덤 x 좌표
     const y = 0; // 화면 상단에서 시작
-    const obstacle = new WaveObstacle(x, y);
+    const randomIndex = Math.floor(Math.random() * obstacleTypes.length);
+    const SelectedObstacleType = obstacleTypes[randomIndex];
+    const obstacle = new SelectedObstacleType(x, y);
     obstacles.push(obstacle);
   }
   
