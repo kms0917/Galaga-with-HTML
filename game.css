@@ -42,9 +42,13 @@ body, html {
   }
 
   .charging-enemy {
-    background-color: rgb(0, 255, 102);
+    background-image: url('/source/chargingEnemy.png'); /* charging-enemy 이미지를 배경으로 설정 */
+    background-size: cover; /* 이미지 크기를 요소 크기에 맞추기 */
+    background-position: center; /* 이미지를 요소의 중앙에 배치 */
     border-radius: 50%;
+    transition: transform 0.2s ease; /* 부드러운 회전 효과 */
   }
+  
 
   .cross-enemy {
     background-color: rgb(186, 23, 123);

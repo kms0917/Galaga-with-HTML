@@ -101,9 +101,8 @@ class ChargingEnemy extends Enemy {
     this.element.classList.add("charging-enemy");
   }
 
-  // 이동이나 공격을 덮어쓸 수도 있음
   move() {
-    if (isPaused){
+    if (isPaused) {
       return;
     }
     // 플레이어의 위치를 가져옴
@@ -120,6 +119,12 @@ class ChargingEnemy extends Enemy {
     const unitX = dx / distance;
     const unitY = dy / distance;
   
+    // 이동 방향에 따라 회전 각도를 계산
+    const angle = Math.atan2(dy, dx) * (180 / Math.PI); // radian to degrees
+  
+    // 회전 적용 (이미지 회전)
+    this.element.style.transform = `rotate(${angle}deg)`;
+  
     // 속도를 적용해 위치 이동
     this.x += unitX * this.speed;
     this.y += unitY * this.speed;
@@ -128,6 +133,7 @@ class ChargingEnemy extends Enemy {
     this.element.style.left = `${this.x}px`;
     this.element.style.top = `${this.y}px`;
   }
+  
 }
 
 class CrossEnemy extends Enemy{
