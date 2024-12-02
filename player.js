@@ -157,7 +157,7 @@ function gameOver() {
     isPaused = true; // 게임을 일시 정지 상태로 전환
     const scores = JSON.parse(localStorage.getItem("highScore")) || [];
 
-    if (scores.length <= 10 || currentscore > scores[scores.length - 1].score) {
+    if (scores.length <= 10 && currentscore > scores[scores.length - 1].score) {
       const scoreOverlay = document.getElementById("scoreOverlay");
       scoreOverlay.style.display = "flex"; 
     } else {
