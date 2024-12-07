@@ -3,9 +3,9 @@ let stage = 1;
 const spawnProbabilities = 0.9;
 
 const enemies = []; // 적들이 저장될 배열
-const enemyTypes = [CrossEnemy, StraightEnemy]; // 적의 종류를 담은 배열
+const enemyTypes = [CrossEnemy, StraightEnemy, ChargingEnemy]; // 적의 종류를 담은 배열
 const obstacles = [];
-const obstacleTypes = [FallingRock];
+const obstacleTypes = [WaveObstacle,FallingRock];
 
 function spawnEnemy() {
     if (isPaused) {
@@ -35,7 +35,7 @@ function spawnEnemy() {
   }
 
   function checkGameClear() {
-    if (currentscore >= 10000) {
+    if (currentscore >= 20000) {
       isPaused = true; // 게임을 일시 정지 상태로 전환
     const scores = JSON.parse(localStorage.getItem("highScore")) || [];
 
@@ -96,4 +96,4 @@ function spawnEnemy() {
   // 일정 시간마다 장애물 생성
   setInterval(spawnObstacle, 1500);
 
-setInterval(spawnEnemy, 1500);
+setInterval(spawnEnemy, 1200);

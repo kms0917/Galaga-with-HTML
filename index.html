@@ -105,12 +105,21 @@
     <div class="title">Galaga</div>
     
     <div class="buttons">
-      <button onclick="startGame()">Game Start</button>
+      <button onclick="openStageSelect()">Game Start</button>
       <button onclick="showControls()">Controls</button>
       <button onclick="showRecord()">Record</button>
     </div>
   </div>
-
+  <!-- 스테이지 선택 팝업 -->
+  <div class="popup-overlay" id="stagePopup">
+    <div class="popup-content">
+      <h2>Select Stage</h2>
+      <button onclick="startGame(1)">Stage 1</button>
+      <button onclick="startGame(2)">Stage 2</button>
+      <button onclick="startGame(3)">Stage 3</button>
+      <button onclick="closeStageSelect()">Cancel</button>
+    </div>
+  </div>
   <!-- 조작법 팝업 -->
   <div class="popup-overlay" id="controlsPopup">
     <div class="popup-content">
@@ -132,8 +141,20 @@
   </div>
 
   <script>
-    function startGame() {
-      window.location.href = "game1.html";
+     function openStageSelect() {
+      document.getElementById("stagePopup").style.display = "flex";
+    }
+
+    function closeStageSelect() {
+      document.getElementById("stagePopup").style.display = "none";
+    }
+    function startGame(stage) {
+      if (stage == 1)
+        window.location.href = "game1.html";
+      else if (stage == 2)
+        window.location.href = "game2.html";
+      else
+        window.location.href = "game3.html";
     }
 
     function showControls() {
