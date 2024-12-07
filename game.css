@@ -50,14 +50,15 @@ body, html {
   
 
   .cross-enemy {
-    background-color: rgb(186, 23, 123);
-    border-radius: 5%;
+    background-image: url('source/CrossEnemy.png'); /* charging-enemy 이미지를 배경으로 설정 */
+    background-size: cover; /* 이미지 크기를 요소 크기에 맞추기 */
+    background-position: center; /* 이미지를 요소의 중앙에 배치 */
   }
 
   .straight-enemy {
-    background-color: rgb(145, 105, 105);
-    position: absolute;
-    border-radius: 50%;
+    background-image: url('source/StraightEnemy.png'); /* charging-enemy 이미지를 배경으로 설정 */
+    background-size: cover; /* 이미지 크기를 요소 크기에 맞추기 */
+    background-position: center; /* 이미지를 요소의 중앙에 배치 */
   }
   
 
