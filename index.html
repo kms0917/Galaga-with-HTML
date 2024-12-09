@@ -22,6 +22,34 @@
       text-align: center;
     }
 
+    .id-input {
+      margin-bottom: 20px;
+    }
+
+    .id-input input {
+      padding: 10px;
+      width: 120px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .id-input button {
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: #555;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .id-input button:hover {
+      background-color: #d6caca;
+    }
+
     .title {
       font-size: 3em;
       margin-bottom: 50px;
@@ -104,10 +132,39 @@
   <div class="game-container">
     <div class="title">Galaga</div>
     
+    <div class="id-input">
+      <input type="text" id="playerId" placeholder="guest" />
+      <button onclick="saveId()">Save ID</button>
+    </div>
+
+    <!-- 게임 소개 오버레이 -->
+  <div class="popup-overlay" id="introPopup" style="display: none;">
+   <div class="popup-content">
+    <h2>Welcome to Galaga!</h2>
+    <p>
+      Galaga is a thrilling space shooter game where you control a starship to fend off waves of enemy invaders 
+      while avoiding obstacles falling from above. This unique twist adds an extra layer of challenge, requiring 
+      precise navigation and quick reflexes.
+    </p>
+    <p>
+      <strong>Key Features:</strong><br>
+      - Fight against enemies with various attack patterns.<br>
+      - Dodge falling obstacles as they increase in speed and complexity.<br>
+      - Progress through multiple stages with escalating difficulty.<br>
+      - Achieve high scores and compete on the leaderboard.
+    </p>
+    <p>
+      Stay alert, keep moving, and test your skills to become the ultimate starship commander!
+    </p>
+     <button onclick="closeIntro()">Close</button>
+    </div>
+  </div>
+
     <div class="buttons">
       <button onclick="openStageSelect()">Game Start</button>
       <button onclick="showControls()">Controls</button>
       <button onclick="showRecord()">Record</button>
+      <button onclick="showIntro()">About Game</button>
     </div>
   </div>
   <!-- 스테이지 선택 팝업 -->
@@ -120,6 +177,7 @@
       <button onclick="closeStageSelect()">Cancel</button>
     </div>
   </div>
+
   <!-- 조작법 팝업 -->
   <div class="popup-overlay" id="controlsPopup">
     <div class="popup-content">
@@ -140,7 +198,21 @@
     </div>
   </div>
 
+  <script src="id.js"></script>
   <script>
+    // 소개 오버레이 열기 함수
+    function showIntro() {
+      document.getElementById("introPopup").style.display = "flex";
+    }
+
+    // 소개 오버레이 닫기 함수
+    function closeIntro() {
+      document.getElementById("introPopup").style.display = "none";
+    }
+
+    function closeIntro() {
+    document.getElementById("introPopup").style.display = "none";
+  }
      function openStageSelect() {
       document.getElementById("stagePopup").style.display = "flex";
     }
@@ -228,8 +300,17 @@ function initializeDefaultScores() {
   console.log("Default scores initialized:", defaultScores);
 }
 
+function initializeMyId() {
+    const savedId = localStorage.getItem("playerId"); // 로컬 저장소에서 ID 가져오기
+    if (savedId) {
+      const playerIdInput = document.getElementById("playerId");
+      playerIdInput.value = savedId;
+    }
+  }
+
 // 게임 실행 시 초기화 함수 호출
 initializeDefaultScores();
+initializeMyId();
 
   </script>
 </body>

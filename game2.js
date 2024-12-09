@@ -50,6 +50,8 @@ function spawnEnemy() {
     if (scores.length < 10 || currentscore > scores[scores.length - 1].score) {
       // 순위에 들어가는 경우
       scoreInputSection.style.display = "block"; // ID 입력 창 표시
+      const playerIdInput = document.getElementById("playerIDInput");
+      playerIdInput.value = myId; // 입력창에 저장된 ID를 미리 채움 
     }
 
     gameClearOverlay.style.display = "flex"; // Game Clear 화면 표시

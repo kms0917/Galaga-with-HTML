@@ -159,7 +159,9 @@ function gameOver() {
 
     if (scores.length <= 10 && currentscore > scores[scores.length - 1].score) {
       const scoreOverlay = document.getElementById("scoreOverlay");
-      scoreOverlay.style.display = "flex"; 
+      scoreOverlay.style.display = "flex";
+      const playerIdInput = document.getElementById("playerIDInput");
+      playerIdInput.value = myId; // 입력창에 저장된 ID를 미리 채움 
     } else {
       const gameOverOverlay = document.getElementById("gameOverOverlay");
       gameOverOverlay.style.display = "flex"; // 게임 오버 화면 표시
@@ -170,6 +172,7 @@ function gameOver() {
     // HTML 요소에서 입력값 가져오기
     const playerID = document.getElementById("playerIDInput").value.trim();
     const finalScore = currentscore;
+
     // 입력값 검증
     if (!playerID) {
       alert("Please enter a valid ID.");
@@ -182,13 +185,8 @@ function gameOver() {
     // 새로운 점수 추가 및 정렬
     scores.push({ id: playerID, score: finalScore });
     scores.sort((a, b) => b.score - a.score);
-  
-    // 상위 10개 점수만 유지
     const topScores = scores.slice(0, 10);
-  
-    // 로컬 저장소에 저장
     localStorage.setItem("highScore", JSON.stringify(topScores));
-  
     // 오버레이 전환
     document.getElementById("scoreOverlay").style.display = "none";
     document.getElementById("gameOverOverlay").style.display = "flex"; // 게임 오버 화면 표시
