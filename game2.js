@@ -35,7 +35,7 @@ function spawnEnemy() {
   }
 
   function checkGameClear() {
-    if (currentscore >= 20000) {
+    if (currentscore >= 2000) {
       isPaused = true; // 게임을 일시 정지 상태로 전환
     const scores = JSON.parse(localStorage.getItem("highScore")) || [];
 
@@ -91,7 +91,7 @@ function spawnEnemy() {
     if (document.getElementById("scoreInputSection").style.display !== "none") {
       if (!saveRecordFromClearOverlay()) return; // 저장 실패 시 함수 종료
     }
-    window.location.href = "game.html"; // 다음 스테이지로 이동
+    window.location.href = "game3.html"; // 다음 스테이지로 이동
   }
   
 
