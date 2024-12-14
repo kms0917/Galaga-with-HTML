@@ -35,7 +35,7 @@ function spawnEnemy() {
   }
 
   function checkGameClear() {
-    if (currentscore >= 2000) {
+    if (currentscore >= 20000) {
       isPaused = true; // 게임을 일시 정지 상태로 전환
     const scores = JSON.parse(localStorage.getItem("highScore")) || [];
 
