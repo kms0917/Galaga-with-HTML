@@ -159,6 +159,7 @@ function gameOver() {
 
     if (scores.length <= 10 && currentscore > scores[scores.length - 1].score) {
       const scoreOverlay = document.getElementById("scoreOverlay");
+      document.getElementById("finalScoreDisplay").innerText = currentscore;
       scoreOverlay.style.display = "flex";
       const playerIdInput = document.getElementById("playerIDInput");
       playerIdInput.value = myId; // 입력창에 저장된 ID를 미리 채움 

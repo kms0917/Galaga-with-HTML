@@ -51,6 +51,7 @@ function spawnEnemy() {
       // 순위에 들어가는 경우
       scoreInputSection.style.display = "block"; // ID 입력 창 표시
       const playerIdInput = document.getElementById("playerIDInput");
+      document.getElementById("finalScoreDisplay").innerText = currentscore;
       playerIdInput.value = myId; // 입력창에 저장된 ID를 미리 채움 
     }
 
